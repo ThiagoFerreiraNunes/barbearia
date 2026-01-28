@@ -5,10 +5,9 @@ import com.api.barbershop.model.Client;
 public record GetClientSimpleDTO(
         Long id,
         String name,
-        String cpf,
-        String plan
+        String cpf
 ) {
     public GetClientSimpleDTO(Client client){
-        this(client.getId(), client.getName(), client.getCpf(), client.getPlan().getName());
+        this(client.getId(), client.getName(), client.getCpf());
     }
 }

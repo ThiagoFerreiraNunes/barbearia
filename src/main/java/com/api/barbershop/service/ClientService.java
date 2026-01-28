@@ -6,9 +6,7 @@ import com.api.barbershop.dto.client.PostClientDTO;
 import com.api.barbershop.dto.client.PutClientDTO;
 import com.api.barbershop.exeption.BusinessRuleException;
 import com.api.barbershop.model.Client;
-import com.api.barbershop.model.Plan;
 import com.api.barbershop.repository.ClientRepository;
-import com.api.barbershop.repository.PlanRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +16,11 @@ import java.util.List;
 @Service
 public class ClientService {
     @Autowired ClientRepository clientRepository;
-    @Autowired PlanRepository planRepository;
 
     @Transactional
     public GetClientDetailsDTO postClient(PostClientDTO data){
-        Plan plan = planRepository.findById(data.planId()).orElseThrow(() -> new EntityNotFoundException("Plan not found."));
-
-        if(Boolean.FALSE.equals(plan.getIsAvailable())){
-            throw new BusinessRuleException("Plan is deleted.");
-        }
-
-        Client client = new Client(data, plan);
+        Client client = new Client(data);
+        clientRepository.save(client);
         return new GetClientDetailsDTO(client);
     }
 
@@ -54,17 +46,7 @@ public class ClientService {
             throw new BusinessRuleException("Client is deleted.");
         }
 
-        Plan plan = null;
-
-        if(data.planId() != null) {
-            plan = planRepository.findById(data.planId()).orElseThrow(() -> new EntityNotFoundException("Plan not found."));
-
-            if(Boolean.FALSE.equals(plan.getIsAvailable())){
-                throw new BusinessRuleException("Plan is deleted.");
-            }
-        }
-
-        client.update(data, plan);
+        client.update(data);
         return new GetClientDetailsDTO(client);
     }
 

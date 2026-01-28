@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.br.CPF;
 public record PostClientDTO(
         @NotBlank String name,
         @NotBlank String phone,
-        @NotBlank @CPF String cpf,
-        @NotNull Long planId
+        @NotBlank @CPF String cpf
 ) {
 }

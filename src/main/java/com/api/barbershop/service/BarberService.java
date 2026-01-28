@@ -28,6 +28,7 @@ public class BarberService {
         }
 
         Barber barber = new Barber(data, unit);
+        barberRepository.save(barber);
         return new GetBarberDetailsDTO(barber);
     }
 

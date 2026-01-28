@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.br.CPF;
 public record PutClientDTO(
         String name,
         String phone,
-        @CPF String cpf,
-        Long planId
+        @CPF String cpf
 ) {
 }
