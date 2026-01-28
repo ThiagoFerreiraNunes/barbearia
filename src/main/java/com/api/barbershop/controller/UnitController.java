@@ -21,7 +21,7 @@ public class UnitController {
     @PostMapping
     public ResponseEntity<GetUnitDTO> postUnit(@RequestBody @Valid PostUnitDTO data, UriComponentsBuilder builder){
         GetUnitDTO unit = unitService.postAnUnit(data);
-        URI uri = builder.path("{id}").buildAndExpand(unit.id()).toUri();
+        URI uri = builder.path("/{id}").buildAndExpand(unit.id()).toUri();
         return ResponseEntity.created(uri).body(unit);
     }
 
@@ -36,7 +36,7 @@ public class UnitController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GetUnitDTO> putUnitById(@PathVariable Long id, @RequestBody @Valid PutUnitDTO data){
+    public ResponseEntity<GetUnitDTO> putUnitById(@PathVariable Long id, @RequestBody PutUnitDTO data){
         return ResponseEntity.ok(unitService.putUnitById(id, data));
     }
 
