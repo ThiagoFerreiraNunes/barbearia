@@ -20,7 +20,7 @@ public class UnitController {
 
     @PostMapping
     public ResponseEntity<GetUnitDTO> postUnit(@RequestBody @Valid PostUnitDTO data, UriComponentsBuilder builder){
-        GetUnitDTO unit = unitService.postAnUnit(data);
+        GetUnitDTO unit = unitService.postUnit(data);
         URI uri = builder.path("/{id}").buildAndExpand(unit.id()).toUri();
         return ResponseEntity.created(uri).body(unit);
     }

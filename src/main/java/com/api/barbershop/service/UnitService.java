@@ -19,7 +19,7 @@ public class UnitService {
     UnitRepository unitRepository;
 
     @Transactional
-    public GetUnitDTO postAnUnit(PostUnitDTO data){
+    public GetUnitDTO postUnit(PostUnitDTO data){
         Unit unit = new Unit(data);
         unitRepository.save(unit);
         return new GetUnitDTO(unit);
