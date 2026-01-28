@@ -25,7 +25,7 @@ public class PlanService {
     }
 
     public List<GetPlanDTO> getAllPlans(){
-        return planRepository.findByAvailableAndSortByPrice().stream().map(GetPlanDTO::new).toList();
+        return planRepository.findAllByAvailableAndSortByPrice().stream().map(GetPlanDTO::new).toList();
     }
 
     public GetPlanDTO getPlanById(Long id){
