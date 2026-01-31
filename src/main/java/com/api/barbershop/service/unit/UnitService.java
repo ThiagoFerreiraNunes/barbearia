@@ -1,12 +1,10 @@
-package com.api.barbershop.service;
+package com.api.barbershop.service.unit;
 
 import com.api.barbershop.dto.unit.GetUnitDTO;
 import com.api.barbershop.dto.unit.PostUnitDTO;
 import com.api.barbershop.dto.unit.PutUnitDTO;
-import com.api.barbershop.exeption.BusinessRuleException;
 import com.api.barbershop.model.Unit;
 import com.api.barbershop.repository.UnitRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +13,12 @@ import java.util.List;
 
 @Service
 public class UnitService {
-    @Autowired
-    UnitRepository unitRepository;
+    @Autowired UnitRepository unitRepository;
+    @Autowired UnitValidation unitValidation;
 
     @Transactional
     public GetUnitDTO postUnit(PostUnitDTO data){
+        unitValidation.validateUniqueFields(data);
         Unit unit = new Unit(data);
         unitRepository.save(unit);
         return new GetUnitDTO(unit);
@@ -30,46 +29,27 @@ public class UnitService {
     }
 
     public GetUnitDTO getUnitById(Long id){
-        Unit unit = unitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Unit not found."));
-
-        if(Boolean.FALSE.equals(unit.getIsAvailable())){
-            throw new BusinessRuleException("Unit is deleted.");
-        }
-
+        Unit unit = unitValidation.validateUnit(id, UnitAction.ACTIVE_CHECK);
         return new GetUnitDTO(unit);
     }
 
     @Transactional
     public GetUnitDTO putUnitById(Long id, PutUnitDTO data){
-        Unit unit = unitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Unit not found."));
-
-        if(Boolean.FALSE.equals(unit.getIsAvailable())){
-            throw new BusinessRuleException("Unit is deleted.");
-        }
-
+        Unit unit = unitValidation.validateUnit(id, UnitAction.ACTIVE_CHECK);
+        unitValidation.validateUniqueFields(data, id);
         unit.update(data);
         return new GetUnitDTO(unit);
     }
 
     @Transactional
     public void deleteUnitById(Long id){
-        Unit unit = unitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Unit not found."));
-
-        if(Boolean.FALSE.equals(unit.getIsAvailable())){
-            throw new BusinessRuleException("Unit is already deleted.");
-        }
-
+        Unit unit = unitValidation.validateUnit(id, UnitAction.DELETE);
         unit.delete();
     }
 
     @Transactional
     public GetUnitDTO reactivateUnitById(Long id){
-        Unit unit = unitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Unit not found."));
-
-        if(Boolean.TRUE.equals(unit.getIsAvailable())){
-            throw new BusinessRuleException("Unit is activate.");
-        }
-
+        Unit unit = unitValidation.validateUnit(id, UnitAction.REACTIVATE);
         unit.reactivate();
         return new GetUnitDTO(unit);
     }

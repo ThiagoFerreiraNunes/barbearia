@@ -4,7 +4,7 @@ import com.api.barbershop.dto.barber.GetBarberDetailsDTO;
 import com.api.barbershop.dto.barber.GetBarberSimpleDTO;
 import com.api.barbershop.dto.barber.PostBarberDTO;
 import com.api.barbershop.dto.barber.PutBarberDTO;
-import com.api.barbershop.service.BarberService;
+import com.api.barbershop.service.barber.BarberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

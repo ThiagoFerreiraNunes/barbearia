@@ -3,7 +3,7 @@ package com.api.barbershop.controller;
 import com.api.barbershop.dto.procedure.GetProcedureDTO;
 import com.api.barbershop.dto.procedure.PostProcedureDTO;
 import com.api.barbershop.dto.procedure.PutProcedureDTO;
-import com.api.barbershop.service.ProcedureService;
+import com.api.barbershop.service.procedure.ProcedureService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

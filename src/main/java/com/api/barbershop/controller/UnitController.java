@@ -3,7 +3,7 @@ package com.api.barbershop.controller;
 import com.api.barbershop.dto.unit.GetUnitDTO;
 import com.api.barbershop.dto.unit.PostUnitDTO;
 import com.api.barbershop.dto.unit.PutUnitDTO;
-import com.api.barbershop.service.UnitService;
+import com.api.barbershop.service.unit.UnitService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

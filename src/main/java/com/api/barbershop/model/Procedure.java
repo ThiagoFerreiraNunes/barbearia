@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Table(name = "tb_procedures")
 @Entity(name = "Procedure")
 @Getter
@@ -22,7 +24,7 @@ public class Procedure {
     private String name;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "estimated_time_minutes")
     private Integer estimatedTime;
@@ -34,6 +36,7 @@ public class Procedure {
         this.name = data.name();
         this.price = data.price();
         this.estimatedTime = data.estimatedTime();
+        this.isAvailable = true;
     }
 
     public void update(PutProcedureDTO data){

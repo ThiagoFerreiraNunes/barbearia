@@ -1,11 +1,12 @@
 package com.api.barbershop.dto.procedure;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 
 public record PostProcedureDTO(
-        @NotBlank String name,
-        @NotNull Double price,
-        @NotNull Integer estimatedTime
+        @NotBlank @Size(max = 100) String name,
+        @NotNull @Digits(integer = 8, fraction = 2) @Positive BigDecimal price,
+        @NotNull @Positive Integer estimatedTime
 ) {
 }
