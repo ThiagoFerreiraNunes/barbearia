@@ -17,7 +17,7 @@ public class ClientService {
     @Autowired ClientValidation clientValidation;
 
     @Transactional
-    public ClientDetailsResponseDTO update(ClientCreateDTO data){
+    public ClientDetailsResponseDTO create(ClientCreateDTO data){
         clientValidation.validateUniqueFields(data);
         Client client = new Client(data);
         clientRepository.save(client);

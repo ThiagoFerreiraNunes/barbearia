@@ -20,8 +20,8 @@ public class ClientController {
     @Autowired ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<ClientDetailsResponseDTO> update(@RequestBody @Valid ClientCreateDTO data, UriComponentsBuilder builder){
-        ClientDetailsResponseDTO client = clientService.update(data);
+    public ResponseEntity<ClientDetailsResponseDTO> create(@RequestBody @Valid ClientCreateDTO data, UriComponentsBuilder builder){
+        ClientDetailsResponseDTO client = clientService.create(data);
         URI uri = builder.path("/{id}").buildAndExpand(client.id()).toUri();
         return ResponseEntity.created(uri).body(client);
     }
