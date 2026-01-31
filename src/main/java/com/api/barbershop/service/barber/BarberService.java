@@ -7,6 +7,7 @@ import com.api.barbershop.dto.barber.BarberUpdateDTO;
 import com.api.barbershop.model.Barber;
 import com.api.barbershop.model.Unit;
 import com.api.barbershop.repository.BarberRepository;
+import com.api.barbershop.service.unit.UnitAction;
 import com.api.barbershop.service.unit.UnitValidation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,31 +20,31 @@ public class BarberService {
     @Autowired UnitValidation unitValidation;
 
     @Transactional
-    public BarberDetailsResponseDTO postBarber(BarberCreateDTO data){
+    public BarberDetailsResponseDTO update(BarberCreateDTO data){
         barberValidation.validateUniqueFields(data);
-        Unit unit = unitValidation.validateActive(data.unitId());
+        Unit unit = unitValidation.validateUnit(data.unitId(), UnitAction.ACTIVE_CHECK);
         Barber barber = new Barber(data, unit);
         barberRepository.save(barber);
         return new BarberDetailsResponseDTO(barber);
     }
 
-    public List<BarberSummaryResponseDTO> getAllBarbers(){
+    public List<BarberSummaryResponseDTO> findAll(){
         return barberRepository.findAllByAvailableAndSortByName().stream().map(BarberSummaryResponseDTO::new).toList();
     }
 
-    public BarberDetailsResponseDTO getBarberById(Long id){
+    public BarberDetailsResponseDTO findById(Long id){
         Barber barber = barberValidation.validateBarber(id, BarberAction.ACTIVE_CHECK);
         return new BarberDetailsResponseDTO(barber);
     }
 
     @Transactional
-    public BarberDetailsResponseDTO putBarberById(Long id, BarberUpdateDTO data){
+    public BarberDetailsResponseDTO update(Long id, BarberUpdateDTO data){
         Barber barber = barberValidation.validateBarber(id, BarberAction.ACTIVE_CHECK);
         barberValidation.validateUniqueFields(data, id);
         Unit unit = null;
 
         if(data.unitId() != null) {
-            unit = unitValidation.validateActive(data.unitId());
+            unit = unitValidation.validateUnit(data.unitId(), UnitAction.ACTIVE_CHECK);
         }
 
         barber.update(data, unit);
@@ -51,13 +52,13 @@ public class BarberService {
     }
 
     @Transactional
-    public void deleteBarberById(Long id){
+    public void delete(Long id){
         Barber barber = barberValidation.validateBarber(id, BarberAction.DELETE);
         barber.delete();
     }
 
     @Transactional
-    public BarberDetailsResponseDTO reactivateBarberById(Long id){
+    public BarberDetailsResponseDTO reactivate(Long id){
         Barber barber = barberValidation.validateBarber(id, BarberAction.REACTIVATE);
         barber.reactivate();
         return new BarberDetailsResponseDTO(barber);

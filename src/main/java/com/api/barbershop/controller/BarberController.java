@@ -20,35 +20,35 @@ public class BarberController {
     @Autowired BarberService barberService;
 
     @PostMapping
-    public ResponseEntity<BarberDetailsResponseDTO> postBarber(@RequestBody @Valid BarberCreateDTO data, UriComponentsBuilder builder){
-        BarberDetailsResponseDTO barber = barberService.postBarber(data);
+    public ResponseEntity<BarberDetailsResponseDTO> create(@RequestBody @Valid BarberCreateDTO data, UriComponentsBuilder builder){
+        BarberDetailsResponseDTO barber = barberService.update(data);
         URI uri = builder.path("/{id}").buildAndExpand(barber.id()).toUri();
         return ResponseEntity.created(uri).body(barber);
     }
 
     @GetMapping
-    public ResponseEntity<List<BarberSummaryResponseDTO>> getAllBarbers(){
-        return ResponseEntity.ok(barberService.getAllBarbers());
+    public ResponseEntity<List<BarberSummaryResponseDTO>> findAll(){
+        return ResponseEntity.ok(barberService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BarberDetailsResponseDTO> getBarberById(@PathVariable Long id){
-        return ResponseEntity.ok(barberService.getBarberById(id));
+    public ResponseEntity<BarberDetailsResponseDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(barberService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BarberDetailsResponseDTO> putBarberById(@PathVariable Long id, @RequestBody @Valid BarberUpdateDTO data){
-        return ResponseEntity.ok(barberService.putBarberById(id, data));
+    public ResponseEntity<BarberDetailsResponseDTO> update(@PathVariable Long id, @RequestBody @Valid BarberUpdateDTO data){
+        return ResponseEntity.ok(barberService.update(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBarberById(@PathVariable Long id){
-        barberService.deleteBarberById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        barberService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<BarberDetailsResponseDTO> reactivateBarberById(@PathVariable Long id){
-        return ResponseEntity.ok(barberService.reactivateBarberById(id));
+    public ResponseEntity<BarberDetailsResponseDTO> reactivate(@PathVariable Long id){
+        return ResponseEntity.ok(barberService.reactivate(id));
     }
 }
