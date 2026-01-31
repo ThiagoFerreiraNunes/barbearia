@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiErrorDTO> handleEntityNotFound(EntityNotFoundException e){
         ApiErrorDTO error = new ApiErrorDTO(
