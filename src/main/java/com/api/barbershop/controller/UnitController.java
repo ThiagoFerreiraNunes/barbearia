@@ -19,35 +19,35 @@ public class UnitController {
     @Autowired UnitService unitService;
 
     @PostMapping
-    public ResponseEntity<UnitResponseDTO> postUnit(@RequestBody @Valid UnitCreateDTO data, UriComponentsBuilder builder){
-        UnitResponseDTO unit = unitService.postUnit(data);
+    public ResponseEntity<UnitResponseDTO> create(@RequestBody @Valid UnitCreateDTO data, UriComponentsBuilder builder){
+        UnitResponseDTO unit = unitService.create(data);
         URI uri = builder.path("/{id}").buildAndExpand(unit.id()).toUri();
         return ResponseEntity.created(uri).body(unit);
     }
 
     @GetMapping
-    public ResponseEntity<List<UnitResponseDTO>> getAllUnits(){
-        return ResponseEntity.ok(unitService.getAllUnits());
+    public ResponseEntity<List<UnitResponseDTO>> findAll(){
+        return ResponseEntity.ok(unitService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UnitResponseDTO> getUnitById(@PathVariable Long id){
-        return ResponseEntity.ok(unitService.getUnitById(id));
+    public ResponseEntity<UnitResponseDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(unitService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UnitResponseDTO> putUnitById(@PathVariable Long id, @RequestBody UnitUpdateDTO data){
-        return ResponseEntity.ok(unitService.putUnitById(id, data));
+    public ResponseEntity<UnitResponseDTO> update(@PathVariable Long id, @RequestBody UnitUpdateDTO data){
+        return ResponseEntity.ok(unitService.update(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUnitById(@PathVariable Long id){
-        unitService.deleteUnitById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        unitService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UnitResponseDTO> reactivateUnitById(@PathVariable Long id){
-        return ResponseEntity.ok(unitService.reactivateUnitById(id));
+    public ResponseEntity<UnitResponseDTO> reactivate(@PathVariable Long id){
+        return ResponseEntity.ok(unitService.reactivate(id));
     }
 }

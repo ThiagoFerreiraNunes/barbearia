@@ -17,24 +17,24 @@ public class UnitService {
     @Autowired UnitValidation unitValidation;
 
     @Transactional
-    public UnitResponseDTO postUnit(UnitCreateDTO data){
+    public UnitResponseDTO create(UnitCreateDTO data){
         unitValidation.validateUniqueFields(data);
         Unit unit = new Unit(data);
         unitRepository.save(unit);
         return new UnitResponseDTO(unit);
     }
 
-    public List<UnitResponseDTO> getAllUnits(){
+    public List<UnitResponseDTO> findAll(){
         return unitRepository.findAllByAvailable().stream().map(UnitResponseDTO::new).toList();
     }
 
-    public UnitResponseDTO getUnitById(Long id){
+    public UnitResponseDTO findById(Long id){
         Unit unit = unitValidation.validateUnit(id, UnitAction.ACTIVE_CHECK);
         return new UnitResponseDTO(unit);
     }
 
     @Transactional
-    public UnitResponseDTO putUnitById(Long id, UnitUpdateDTO data){
+    public UnitResponseDTO update(Long id, UnitUpdateDTO data){
         Unit unit = unitValidation.validateUnit(id, UnitAction.ACTIVE_CHECK);
         unitValidation.validateUniqueFields(data, id);
         unit.update(data);
@@ -42,13 +42,13 @@ public class UnitService {
     }
 
     @Transactional
-    public void deleteUnitById(Long id){
+    public void delete(Long id){
         Unit unit = unitValidation.validateUnit(id, UnitAction.DELETE);
         unit.delete();
     }
 
     @Transactional
-    public UnitResponseDTO reactivateUnitById(Long id){
+    public UnitResponseDTO reactivate(Long id){
         Unit unit = unitValidation.validateUnit(id, UnitAction.REACTIVATE);
         unit.reactivate();
         return new UnitResponseDTO(unit);
