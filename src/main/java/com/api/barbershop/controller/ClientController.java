@@ -20,35 +20,35 @@ public class ClientController {
     @Autowired ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<ClientDetailsResponseDTO> postClient(@RequestBody @Valid ClientCreateDTO data, UriComponentsBuilder builder){
-        ClientDetailsResponseDTO client = clientService.postClient(data);
+    public ResponseEntity<ClientDetailsResponseDTO> update(@RequestBody @Valid ClientCreateDTO data, UriComponentsBuilder builder){
+        ClientDetailsResponseDTO client = clientService.update(data);
         URI uri = builder.path("/{id}").buildAndExpand(client.id()).toUri();
         return ResponseEntity.created(uri).body(client);
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientSummaryResponseDTO>> getAllClients(){
-        return ResponseEntity.ok(clientService.getAllClients());
+    public ResponseEntity<List<ClientSummaryResponseDTO>> findAll(){
+        return ResponseEntity.ok(clientService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientDetailsResponseDTO> getClientById(@PathVariable Long id){
-        return ResponseEntity.ok(clientService.getClientById(id));
+    public ResponseEntity<ClientDetailsResponseDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(clientService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDetailsResponseDTO> putClientById(@PathVariable Long id, @RequestBody @Valid ClientUpdateDTO data){
-        return ResponseEntity.ok(clientService.putClientById(id, data));
+    public ResponseEntity<ClientDetailsResponseDTO> update(@PathVariable Long id, @RequestBody @Valid ClientUpdateDTO data){
+        return ResponseEntity.ok(clientService.update(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClientById(@PathVariable Long id){
-        clientService.deleteClientById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClientDetailsResponseDTO> reactivateClientById(@PathVariable Long id){
-        return ResponseEntity.ok(clientService.reactivateClientById(id));
+    public ResponseEntity<ClientDetailsResponseDTO> reactivate(@PathVariable Long id){
+        return ResponseEntity.ok(clientService.reactivate(id));
     }
 }
