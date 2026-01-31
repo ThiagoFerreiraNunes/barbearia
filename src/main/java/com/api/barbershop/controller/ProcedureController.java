@@ -19,35 +19,35 @@ public class ProcedureController {
     @Autowired ProcedureService procedureService;
 
     @PostMapping
-    public ResponseEntity<ProcedureResponseDTO> postProcedure(@RequestBody @Valid ProcedureCreateDTO data, UriComponentsBuilder builder){
-        ProcedureResponseDTO procedure = procedureService.postProcedure(data);
+    public ResponseEntity<ProcedureResponseDTO> create(@RequestBody @Valid ProcedureCreateDTO data, UriComponentsBuilder builder){
+        ProcedureResponseDTO procedure = procedureService.create(data);
         URI uri = builder.path("/{id}").buildAndExpand(procedure.id()).toUri();
         return ResponseEntity.created(uri).body(procedure);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProcedureResponseDTO>> getAllProcedures(){
-        return ResponseEntity.ok(procedureService.getAllProcedures());
+    public ResponseEntity<List<ProcedureResponseDTO>> findAll(){
+        return ResponseEntity.ok(procedureService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProcedureResponseDTO> getProcedureById(@PathVariable Long id){
-        return ResponseEntity.ok(procedureService.getProcedureById(id));
+    public ResponseEntity<ProcedureResponseDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(procedureService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProcedureResponseDTO> putProcedureById(@PathVariable Long id, @RequestBody ProcedureUpdateDTO data){
-        return ResponseEntity.ok(procedureService.putProcedureById(id, data));
+    public ResponseEntity<ProcedureResponseDTO> update(@PathVariable Long id, @RequestBody ProcedureUpdateDTO data){
+        return ResponseEntity.ok(procedureService.update(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUnitById(@PathVariable Long id){
-        procedureService.deleteProcedureById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        procedureService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProcedureResponseDTO> reactivateProcedureById(@PathVariable Long id){
-        return ResponseEntity.ok(procedureService.reactivateProcedureById(id));
+    public ResponseEntity<ProcedureResponseDTO> reactivate(@PathVariable Long id){
+        return ResponseEntity.ok(procedureService.reactivate(id));
     }
 }

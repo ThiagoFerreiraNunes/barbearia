@@ -17,24 +17,24 @@ public class ProcedureService {
     @Autowired ProcedureValidation procedureValidation;
 
     @Transactional
-    public ProcedureResponseDTO postProcedure(ProcedureCreateDTO data){
+    public ProcedureResponseDTO create(ProcedureCreateDTO data){
         procedureValidation.validateUniqueFields(data);
         Procedure procedure = new Procedure(data);
         procedureRepository.save(procedure);
         return new ProcedureResponseDTO(procedure);
     }
 
-    public List<ProcedureResponseDTO> getAllProcedures(){
+    public List<ProcedureResponseDTO> findAll(){
         return procedureRepository.findAllByAvailableAndSortByName().stream().map(ProcedureResponseDTO::new).toList();
     }
 
-    public ProcedureResponseDTO getProcedureById(Long id){
+    public ProcedureResponseDTO findById(Long id){
         Procedure procedure = procedureValidation.validateProcedure(id, ProcedureAction.ACTIVE_CHECK);
         return new ProcedureResponseDTO(procedure);
     }
 
     @Transactional
-    public ProcedureResponseDTO putProcedureById(Long id, ProcedureUpdateDTO data){
+    public ProcedureResponseDTO update(Long id, ProcedureUpdateDTO data){
         Procedure procedure = procedureValidation.validateProcedure(id, ProcedureAction.ACTIVE_CHECK);
         procedureValidation.validateUniqueFields(data, id);
         procedure.update(data);
@@ -42,13 +42,13 @@ public class ProcedureService {
     }
 
     @Transactional
-    public void deleteProcedureById(Long id){
+    public void delete(Long id){
         Procedure procedure = procedureValidation.validateProcedure(id, ProcedureAction.DELETE);
         procedure.delete();
     }
 
     @Transactional
-    public ProcedureResponseDTO reactivateProcedureById(Long id){
+    public ProcedureResponseDTO reactivate(Long id){
         Procedure procedure = procedureValidation.validateProcedure(id, ProcedureAction.REACTIVATE);
         procedure.reactivate();
         return new ProcedureResponseDTO(procedure);
