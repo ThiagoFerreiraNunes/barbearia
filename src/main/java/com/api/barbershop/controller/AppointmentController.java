@@ -20,35 +20,35 @@ public class AppointmentController {
     @Autowired AppointmentService appointmentService;
 
     @PostMapping
-    public ResponseEntity<AppointmentDetailsResponseDTO> postAppointment(@RequestBody @Valid AppointmentCreateDTO data, UriComponentsBuilder builder){
-        AppointmentDetailsResponseDTO appointment = appointmentService.postAppointment(data);
+    public ResponseEntity<AppointmentDetailsResponseDTO> create(@RequestBody @Valid AppointmentCreateDTO data, UriComponentsBuilder builder){
+        AppointmentDetailsResponseDTO appointment = appointmentService.create(data);
         URI uri = builder.path("/{id}").buildAndExpand(appointment.id()).toUri();
         return ResponseEntity.created(uri).body(appointment);
     }
 
     @GetMapping
-    public ResponseEntity<List<AppointmentSummaryResponseDTO>> getAllAppointments(){
-        return ResponseEntity.ok(appointmentService.getAllAppointments());
+    public ResponseEntity<List<AppointmentSummaryResponseDTO>> findAll(){
+        return ResponseEntity.ok(appointmentService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppointmentDetailsResponseDTO> getAppointmentById(@PathVariable Long id){
-        return ResponseEntity.ok(appointmentService.getAppointmentById(id));
+    public ResponseEntity<AppointmentDetailsResponseDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(appointmentService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppointmentDetailsResponseDTO> putAppointmentById(@PathVariable Long id, @RequestBody AppointmentUpdateDTO data){
-        return ResponseEntity.ok(appointmentService.putAppointmentById(id, data));
+    public ResponseEntity<AppointmentDetailsResponseDTO> update(@PathVariable Long id, @RequestBody AppointmentUpdateDTO data){
+        return ResponseEntity.ok(appointmentService.update(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAppointmentById(@PathVariable Long id){
-        appointmentService.deleteAppointmentById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        appointmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<AppointmentDetailsResponseDTO> reactivateAppointmentById(@PathVariable Long id){
-        return ResponseEntity.ok(appointmentService.reactivateAppointmentById(id));
+    public ResponseEntity<AppointmentDetailsResponseDTO> reactivate(@PathVariable Long id){
+        return ResponseEntity.ok(appointmentService.reactivate(id));
     }
 }

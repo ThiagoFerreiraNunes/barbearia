@@ -29,7 +29,7 @@ public class AppointmentService {
     @Autowired ProcedureValidation procedureValidation;
 
     @Transactional
-    public AppointmentDetailsResponseDTO postAppointment(AppointmentCreateDTO data){
+    public AppointmentDetailsResponseDTO create(AppointmentCreateDTO data){
         Barber barber = barberValidation.validateBarber(data.barberId(), BarberAction.ACTIVE_CHECK);
         Client client = clientValidation.validateClient(data.clientId(), ClientAction.ACTIVE_CHECK);
         Unit unit = unitValidation.validateUnit(data.unitId(), UnitAction.ACTIVE_CHECK);
@@ -42,17 +42,17 @@ public class AppointmentService {
         return new AppointmentDetailsResponseDTO(appointment);
     }
 
-    public List<AppointmentSummaryResponseDTO> getAllAppointments(){
+    public List<AppointmentSummaryResponseDTO> findAll(){
         return appointmentRepository.findAllByAvailableAndSortByDate().stream().map(AppointmentSummaryResponseDTO::new).toList();
     }
 
-    public AppointmentDetailsResponseDTO getAppointmentById(Long id){
+    public AppointmentDetailsResponseDTO findById(Long id){
         Appointment appointment = appointmentValidation.validateAppointment(id, AppointmentAction.ACTIVE_CHECK);
         return new AppointmentDetailsResponseDTO(appointment);
     }
 
     @Transactional
-    public AppointmentDetailsResponseDTO putAppointmentById(Long id, AppointmentUpdateDTO data){
+    public AppointmentDetailsResponseDTO update(Long id, AppointmentUpdateDTO data){
         Appointment appointment = appointmentValidation.validateAppointment(id, AppointmentAction.ACTIVE_CHECK);
         Barber barber = barberValidation.validateBarber(data.barberId(), BarberAction.ACTIVE_CHECK);
         Client client = clientValidation.validateClient(data.clientId(), ClientAction.ACTIVE_CHECK);
@@ -66,13 +66,13 @@ public class AppointmentService {
     }
 
     @Transactional
-    public void deleteAppointmentById(Long id){
+    public void delete(Long id){
         Appointment appointment = appointmentValidation.validateAppointment(id, AppointmentAction.DELETE);
         appointment.delete();
     }
 
     @Transactional
-    public AppointmentDetailsResponseDTO reactivateAppointmentById(Long id){
+    public AppointmentDetailsResponseDTO reactivate(Long id){
         Appointment appointment = appointmentValidation.validateAppointment(id, AppointmentAction.REACTIVATE);
         appointment.reactivate();
         return new AppointmentDetailsResponseDTO(appointment);
