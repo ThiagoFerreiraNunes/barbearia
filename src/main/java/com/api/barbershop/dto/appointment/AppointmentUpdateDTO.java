@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public record PutAppointmentDTO(
+public record AppointmentUpdateDTO(
         Long barberId,
         Long clientId,
         Long unitId,

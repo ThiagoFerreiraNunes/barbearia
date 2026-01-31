@@ -2,12 +2,12 @@ package com.api.barbershop.dto.barber;
 
 import com.api.barbershop.model.Barber;
 
-public record GetBarberSimpleDTO(
+public record BarberSummaryResponseDTO(
         Long id,
         String name,
         String cpf
 ) {
-    public GetBarberSimpleDTO(Barber barber){
+    public BarberSummaryResponseDTO(Barber barber){
         this(barber.getId(), barber.getName(), barber.getCpf());
     }
 }

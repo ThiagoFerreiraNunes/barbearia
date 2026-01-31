@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
-public record PutProcedureDTO(
+public record ProcedureUpdateDTO(
         @Size(max = 100) String name,
         @Digits(integer = 8, fraction = 2) @Positive BigDecimal price,
         @Positive Integer estimatedTime

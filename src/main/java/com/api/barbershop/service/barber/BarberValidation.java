@@ -1,7 +1,7 @@
 package com.api.barbershop.service.barber;
 
-import com.api.barbershop.dto.barber.PostBarberDTO;
-import com.api.barbershop.dto.barber.PutBarberDTO;
+import com.api.barbershop.dto.barber.BarberCreateDTO;
+import com.api.barbershop.dto.barber.BarberUpdateDTO;
 import com.api.barbershop.exeption.BusinessRuleException;
 import com.api.barbershop.model.Barber;
 import com.api.barbershop.repository.BarberRepository;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class BarberValidation {
     @Autowired BarberRepository barberRepository;
 
-    public void validateUniqueFields(PostBarberDTO fields){
+    public void validateUniqueFields(BarberCreateDTO fields){
         if(barberRepository.existsByPhone(fields.phone())){
             throw new BusinessRuleException("There is already a Barber registered with the provided phone.");
         }
@@ -23,7 +23,7 @@ public class BarberValidation {
         }
     }
 
-    public void validateUniqueFields(PutBarberDTO fields, Long id){
+    public void validateUniqueFields(BarberUpdateDTO fields, Long id){
         if(barberRepository.existsByPhoneAndIdNot(fields.phone(), id)){
             throw new BusinessRuleException("There is already a Barber registered with the provided phone.");
         }

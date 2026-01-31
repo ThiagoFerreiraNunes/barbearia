@@ -1,9 +1,9 @@
 package com.api.barbershop.service.client;
 
-import com.api.barbershop.dto.client.GetClientDetailsDTO;
-import com.api.barbershop.dto.client.GetClientSimpleDTO;
-import com.api.barbershop.dto.client.PostClientDTO;
-import com.api.barbershop.dto.client.PutClientDTO;
+import com.api.barbershop.dto.client.ClientDetailsResponseDTO;
+import com.api.barbershop.dto.client.ClientSummaryResponseDTO;
+import com.api.barbershop.dto.client.ClientCreateDTO;
+import com.api.barbershop.dto.client.ClientUpdateDTO;
 import com.api.barbershop.model.Client;
 import com.api.barbershop.repository.ClientRepository;
 import jakarta.transaction.Transactional;
@@ -17,28 +17,28 @@ public class ClientService {
     @Autowired ClientValidation clientValidation;
 
     @Transactional
-    public GetClientDetailsDTO postClient(PostClientDTO data){
+    public ClientDetailsResponseDTO postClient(ClientCreateDTO data){
         clientValidation.validateUniqueFields(data);
         Client client = new Client(data);
         clientRepository.save(client);
-        return new GetClientDetailsDTO(client);
+        return new ClientDetailsResponseDTO(client);
     }
 
-    public List<GetClientSimpleDTO> getAllClients(){
-        return clientRepository.findAllByAvailableAndSortByName().stream().map(GetClientSimpleDTO::new).toList();
+    public List<ClientSummaryResponseDTO> getAllClients(){
+        return clientRepository.findAllByAvailableAndSortByName().stream().map(ClientSummaryResponseDTO::new).toList();
     }
 
-    public GetClientDetailsDTO getClientById(Long id){
+    public ClientDetailsResponseDTO getClientById(Long id){
         Client client = clientValidation.validateClient(id, ClientAction.ACTIVE_CHECK);
-        return new GetClientDetailsDTO(client);
+        return new ClientDetailsResponseDTO(client);
     }
 
     @Transactional
-    public GetClientDetailsDTO putClientById(Long id, PutClientDTO data){
+    public ClientDetailsResponseDTO putClientById(Long id, ClientUpdateDTO data){
         Client client = clientValidation.validateClient(id, ClientAction.ACTIVE_CHECK);
         clientValidation.validateUniqueFields(data, id);
         client.update(data);
-        return new GetClientDetailsDTO(client);
+        return new ClientDetailsResponseDTO(client);
     }
 
     @Transactional
@@ -48,9 +48,9 @@ public class ClientService {
     }
 
     @Transactional
-    public GetClientDetailsDTO reactivateClientById(Long id){
+    public ClientDetailsResponseDTO reactivateClientById(Long id){
         Client client = clientValidation.validateClient(id, ClientAction.REACTIVATE);
         client.reactivate();
-        return new GetClientDetailsDTO(client);
+        return new ClientDetailsResponseDTO(client);
     }
 }

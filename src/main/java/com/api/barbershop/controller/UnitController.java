@@ -1,8 +1,8 @@
 package com.api.barbershop.controller;
 
-import com.api.barbershop.dto.unit.GetUnitDTO;
-import com.api.barbershop.dto.unit.PostUnitDTO;
-import com.api.barbershop.dto.unit.PutUnitDTO;
+import com.api.barbershop.dto.unit.UnitResponseDTO;
+import com.api.barbershop.dto.unit.UnitCreateDTO;
+import com.api.barbershop.dto.unit.UnitUpdateDTO;
 import com.api.barbershop.service.unit.UnitService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +19,24 @@ public class UnitController {
     @Autowired UnitService unitService;
 
     @PostMapping
-    public ResponseEntity<GetUnitDTO> postUnit(@RequestBody @Valid PostUnitDTO data, UriComponentsBuilder builder){
-        GetUnitDTO unit = unitService.postUnit(data);
+    public ResponseEntity<UnitResponseDTO> postUnit(@RequestBody @Valid UnitCreateDTO data, UriComponentsBuilder builder){
+        UnitResponseDTO unit = unitService.postUnit(data);
         URI uri = builder.path("/{id}").buildAndExpand(unit.id()).toUri();
         return ResponseEntity.created(uri).body(unit);
     }
 
     @GetMapping
-    public ResponseEntity<List<GetUnitDTO>> getAllUnits(){
+    public ResponseEntity<List<UnitResponseDTO>> getAllUnits(){
         return ResponseEntity.ok(unitService.getAllUnits());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetUnitDTO> getUnitById(@PathVariable Long id){
+    public ResponseEntity<UnitResponseDTO> getUnitById(@PathVariable Long id){
         return ResponseEntity.ok(unitService.getUnitById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GetUnitDTO> putUnitById(@PathVariable Long id, @RequestBody PutUnitDTO data){
+    public ResponseEntity<UnitResponseDTO> putUnitById(@PathVariable Long id, @RequestBody UnitUpdateDTO data){
         return ResponseEntity.ok(unitService.putUnitById(id, data));
     }
 
@@ -47,7 +47,7 @@ public class UnitController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<GetUnitDTO> reactivateUnitById(@PathVariable Long id){
+    public ResponseEntity<UnitResponseDTO> reactivateUnitById(@PathVariable Long id){
         return ResponseEntity.ok(unitService.reactivateUnitById(id));
     }
 }

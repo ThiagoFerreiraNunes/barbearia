@@ -1,7 +1,7 @@
 package com.api.barbershop.service.procedure;
 
-import com.api.barbershop.dto.procedure.PostProcedureDTO;
-import com.api.barbershop.dto.procedure.PutProcedureDTO;
+import com.api.barbershop.dto.procedure.ProcedureCreateDTO;
+import com.api.barbershop.dto.procedure.ProcedureUpdateDTO;
 import com.api.barbershop.exeption.BusinessRuleException;
 import com.api.barbershop.model.Procedure;
 import com.api.barbershop.repository.ProcedureRepository;
@@ -18,13 +18,13 @@ import java.util.Set;
 public class ProcedureValidation {
     @Autowired ProcedureRepository procedureRepository;
 
-    public void validateUniqueFields(PostProcedureDTO fields){
+    public void validateUniqueFields(ProcedureCreateDTO fields){
         if(procedureRepository.existsByName(fields.name())){
             throw new BusinessRuleException("There is already a Procedure registered with the provided name.");
         }
     }
 
-    public void validateUniqueFields(PutProcedureDTO fields, Long id){
+    public void validateUniqueFields(ProcedureUpdateDTO fields, Long id){
         if(procedureRepository.existsByNameAndIdNot(fields.name(), id)){
             throw new BusinessRuleException("There is already a Procedure registered with the provided name.");
         }

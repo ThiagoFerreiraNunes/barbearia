@@ -1,7 +1,7 @@
 package com.api.barbershop.model;
 
-import com.api.barbershop.dto.procedure.PostProcedureDTO;
-import com.api.barbershop.dto.procedure.PutProcedureDTO;
+import com.api.barbershop.dto.procedure.ProcedureCreateDTO;
+import com.api.barbershop.dto.procedure.ProcedureUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,14 +32,14 @@ public class Procedure {
     @Column(name = "is_available")
     private Boolean isAvailable;
 
-    public Procedure(PostProcedureDTO data){
+    public Procedure(ProcedureCreateDTO data){
         this.name = data.name();
         this.price = data.price();
         this.estimatedTime = data.estimatedTime();
         this.isAvailable = true;
     }
 
-    public void update(PutProcedureDTO data){
+    public void update(ProcedureUpdateDTO data){
         if(data.name() != null) this.name = data.name();
         if(data.price() != null) this.price = data.price();
         if(data.estimatedTime() != null) this.estimatedTime = data.estimatedTime();

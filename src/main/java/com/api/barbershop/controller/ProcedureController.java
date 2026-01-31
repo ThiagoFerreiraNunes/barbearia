@@ -1,8 +1,8 @@
 package com.api.barbershop.controller;
 
-import com.api.barbershop.dto.procedure.GetProcedureDTO;
-import com.api.barbershop.dto.procedure.PostProcedureDTO;
-import com.api.barbershop.dto.procedure.PutProcedureDTO;
+import com.api.barbershop.dto.procedure.ProcedureResponseDTO;
+import com.api.barbershop.dto.procedure.ProcedureCreateDTO;
+import com.api.barbershop.dto.procedure.ProcedureUpdateDTO;
 import com.api.barbershop.service.procedure.ProcedureService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +19,24 @@ public class ProcedureController {
     @Autowired ProcedureService procedureService;
 
     @PostMapping
-    public ResponseEntity<GetProcedureDTO> postProcedure(@RequestBody @Valid PostProcedureDTO data, UriComponentsBuilder builder){
-        GetProcedureDTO procedure = procedureService.postProcedure(data);
+    public ResponseEntity<ProcedureResponseDTO> postProcedure(@RequestBody @Valid ProcedureCreateDTO data, UriComponentsBuilder builder){
+        ProcedureResponseDTO procedure = procedureService.postProcedure(data);
         URI uri = builder.path("/{id}").buildAndExpand(procedure.id()).toUri();
         return ResponseEntity.created(uri).body(procedure);
     }
 
     @GetMapping
-    public ResponseEntity<List<GetProcedureDTO>> getAllProcedures(){
+    public ResponseEntity<List<ProcedureResponseDTO>> getAllProcedures(){
         return ResponseEntity.ok(procedureService.getAllProcedures());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetProcedureDTO> getProcedureById(@PathVariable Long id){
+    public ResponseEntity<ProcedureResponseDTO> getProcedureById(@PathVariable Long id){
         return ResponseEntity.ok(procedureService.getProcedureById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GetProcedureDTO> putProcedureById(@PathVariable Long id, @RequestBody PutProcedureDTO data){
+    public ResponseEntity<ProcedureResponseDTO> putProcedureById(@PathVariable Long id, @RequestBody ProcedureUpdateDTO data){
         return ResponseEntity.ok(procedureService.putProcedureById(id, data));
     }
 
@@ -47,7 +47,7 @@ public class ProcedureController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<GetProcedureDTO> reactivateProcedureById(@PathVariable Long id){
+    public ResponseEntity<ProcedureResponseDTO> reactivateProcedureById(@PathVariable Long id){
         return ResponseEntity.ok(procedureService.reactivateProcedureById(id));
     }
 }

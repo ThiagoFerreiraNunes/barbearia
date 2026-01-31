@@ -1,8 +1,8 @@
 package com.api.barbershop.service.unit;
 
-import com.api.barbershop.dto.unit.GetUnitDTO;
-import com.api.barbershop.dto.unit.PostUnitDTO;
-import com.api.barbershop.dto.unit.PutUnitDTO;
+import com.api.barbershop.dto.unit.UnitResponseDTO;
+import com.api.barbershop.dto.unit.UnitCreateDTO;
+import com.api.barbershop.dto.unit.UnitUpdateDTO;
 import com.api.barbershop.model.Unit;
 import com.api.barbershop.repository.UnitRepository;
 import jakarta.transaction.Transactional;
@@ -17,28 +17,28 @@ public class UnitService {
     @Autowired UnitValidation unitValidation;
 
     @Transactional
-    public GetUnitDTO postUnit(PostUnitDTO data){
+    public UnitResponseDTO postUnit(UnitCreateDTO data){
         unitValidation.validateUniqueFields(data);
         Unit unit = new Unit(data);
         unitRepository.save(unit);
-        return new GetUnitDTO(unit);
+        return new UnitResponseDTO(unit);
     }
 
-    public List<GetUnitDTO> getAllUnits(){
-        return unitRepository.findAllByAvailable().stream().map(GetUnitDTO::new).toList();
+    public List<UnitResponseDTO> getAllUnits(){
+        return unitRepository.findAllByAvailable().stream().map(UnitResponseDTO::new).toList();
     }
 
-    public GetUnitDTO getUnitById(Long id){
+    public UnitResponseDTO getUnitById(Long id){
         Unit unit = unitValidation.validateUnit(id, UnitAction.ACTIVE_CHECK);
-        return new GetUnitDTO(unit);
+        return new UnitResponseDTO(unit);
     }
 
     @Transactional
-    public GetUnitDTO putUnitById(Long id, PutUnitDTO data){
+    public UnitResponseDTO putUnitById(Long id, UnitUpdateDTO data){
         Unit unit = unitValidation.validateUnit(id, UnitAction.ACTIVE_CHECK);
         unitValidation.validateUniqueFields(data, id);
         unit.update(data);
-        return new GetUnitDTO(unit);
+        return new UnitResponseDTO(unit);
     }
 
     @Transactional
@@ -48,9 +48,9 @@ public class UnitService {
     }
 
     @Transactional
-    public GetUnitDTO reactivateUnitById(Long id){
+    public UnitResponseDTO reactivateUnitById(Long id){
         Unit unit = unitValidation.validateUnit(id, UnitAction.REACTIVATE);
         unit.reactivate();
-        return new GetUnitDTO(unit);
+        return new UnitResponseDTO(unit);
     }
 }

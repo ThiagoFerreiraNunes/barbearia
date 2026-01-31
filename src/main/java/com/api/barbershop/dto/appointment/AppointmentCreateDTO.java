@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public record PostAppointmentDTO(
+public record AppointmentCreateDTO(
         @NotNull Long barberId,
         @NotNull Long clientId,
         @NotNull Long unitId,

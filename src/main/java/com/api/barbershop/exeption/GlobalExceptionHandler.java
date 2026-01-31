@@ -1,6 +1,6 @@
 package com.api.barbershop.exeption;
 
-import com.api.barbershop.dto.error.ApiErrorDTO;
+import com.api.barbershop.dto.error.ErrorResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,8 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiErrorDTO> handleEntityNotFound(EntityNotFoundException e){
-        ApiErrorDTO error = new ApiErrorDTO(
+    public ResponseEntity<ErrorResponseDTO> handleEntityNotFound(EntityNotFoundException e){
+        ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.NOT_FOUND.value(),
                 e.getMessage()
         );
@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BusinessRuleException.class)
-    public ResponseEntity<ApiErrorDTO> handleBusinessRule(BusinessRuleException e){
-        ApiErrorDTO error = new ApiErrorDTO(
+    public ResponseEntity<ErrorResponseDTO> handleBusinessRule(BusinessRuleException e){
+        ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.BAD_REQUEST.value(),
                 e.getMessage()
         );
@@ -45,8 +45,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiErrorDTO> handleDataIntegrityViolation(DataIntegrityViolationException e){
-        ApiErrorDTO error = new ApiErrorDTO(
+    public ResponseEntity<ErrorResponseDTO> handleDataIntegrityViolation(DataIntegrityViolationException e){
+        ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.CONFLICT.value(),
                 "Data integrity violation"
         );
@@ -54,8 +54,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorDTO> handleGenericException(Exception e){
-        ApiErrorDTO error = new ApiErrorDTO(
+    public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception e){
+        ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal server error"
         );

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
-public record PostBarberDTO(
+public record BarberCreateDTO(
         @NotBlank @Size(max = 100) String name,
         @NotBlank @Size(min = 11, max = 11) String phone,
         @NotBlank @Size(min = 11, max = 11) @CPF String cpf,

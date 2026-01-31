@@ -1,16 +1,16 @@
 package com.api.barbershop.dto.barber;
 
-import com.api.barbershop.dto.unit.GetUnitDTO;
+import com.api.barbershop.dto.unit.UnitResponseDTO;
 import com.api.barbershop.model.Barber;
 
-public record GetBarberDetailsDTO(
+public record BarberDetailsResponseDTO(
         Long id,
         String name,
         String phone,
         String cpf,
-        GetUnitDTO unit
+        UnitResponseDTO unit
 ) {
-    public GetBarberDetailsDTO(Barber barber){
-        this(barber.getId(), barber.getName(), barber.getPhone(), barber.getCpf(), new GetUnitDTO(barber.getUnit()));
+    public BarberDetailsResponseDTO(Barber barber){
+        this(barber.getId(), barber.getName(), barber.getPhone(), barber.getCpf(), new UnitResponseDTO(barber.getUnit()));
     }
 }

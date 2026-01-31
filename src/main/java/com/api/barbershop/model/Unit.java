@@ -1,7 +1,7 @@
 package com.api.barbershop.model;
 
-import com.api.barbershop.dto.unit.PostUnitDTO;
-import com.api.barbershop.dto.unit.PutUnitDTO;
+import com.api.barbershop.dto.unit.UnitCreateDTO;
+import com.api.barbershop.dto.unit.UnitUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,13 +28,13 @@ public class Unit {
     @Column(name = "is_available")
     private Boolean isAvailable;
 
-    public Unit(PostUnitDTO data){
+    public Unit(UnitCreateDTO data){
         this.phone = data.phone();
         this.address = data.address();
         this.isAvailable = true;
     }
 
-    public void update(PutUnitDTO data){
+    public void update(UnitUpdateDTO data){
         if(data.phone() != null) this.phone = data.phone();
         if(data.address() != null) this.address = data.address();
     }

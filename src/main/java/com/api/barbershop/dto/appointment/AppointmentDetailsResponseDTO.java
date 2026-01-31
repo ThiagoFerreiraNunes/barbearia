@@ -1,8 +1,8 @@
 package com.api.barbershop.dto.appointment;
 
-import com.api.barbershop.dto.barber.GetBarberSimpleDTO;
-import com.api.barbershop.dto.client.GetClientSimpleDTO;
-import com.api.barbershop.dto.unit.GetUnitDTO;
+import com.api.barbershop.dto.barber.BarberSummaryResponseDTO;
+import com.api.barbershop.dto.client.ClientSummaryResponseDTO;
+import com.api.barbershop.dto.unit.UnitResponseDTO;
 import com.api.barbershop.model.Appointment;
 import com.api.barbershop.utils.FormatCurrency;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,28 +11,28 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public record GetAppointmentDetailsDTO(
+public record AppointmentDetailsResponseDTO(
         Long id,
-        GetBarberSimpleDTO barber,
-        GetClientSimpleDTO client,
-        GetUnitDTO unit,
+        BarberSummaryResponseDTO barber,
+        ClientSummaryResponseDTO client,
+        UnitResponseDTO unit,
         String totalPrice,
         @JsonFormat(pattern = "yyyy-MM-dd") LocalDate date,
         @JsonFormat(pattern = "HH:mm") LocalTime start,
         @JsonFormat(pattern = "HH:mm") LocalTime end,
-        List<GetAppointmentItem> items
+        List<AppointmentItemResponseDTO> items
 ) {
-    public GetAppointmentDetailsDTO(Appointment appointment){
+    public AppointmentDetailsResponseDTO(Appointment appointment){
         this(
                 appointment.getId(),
-                new GetBarberSimpleDTO(appointment.getBarber()),
-                new GetClientSimpleDTO(appointment.getClient()),
-                new GetUnitDTO(appointment.getUnit()),
+                new BarberSummaryResponseDTO(appointment.getBarber()),
+                new ClientSummaryResponseDTO(appointment.getClient()),
+                new UnitResponseDTO(appointment.getUnit()),
                 FormatCurrency.format(appointment.getTotalPrice()),
                 appointment.getDate(),
                 appointment.getStart(),
                 appointment.getEnd(),
-                appointment.getItems().stream().map(GetAppointmentItem::new).toList()
+                appointment.getItems().stream().map(AppointmentItemResponseDTO::new).toList()
         );
     }
 }

@@ -1,7 +1,7 @@
 package com.api.barbershop.model;
 
-import com.api.barbershop.dto.client.PostClientDTO;
-import com.api.barbershop.dto.client.PutClientDTO;
+import com.api.barbershop.dto.client.ClientCreateDTO;
+import com.api.barbershop.dto.client.ClientUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,14 +30,14 @@ public class Client {
     @Column(name = "is_available")
     private Boolean isAvailable;
 
-    public Client(PostClientDTO data){
+    public Client(ClientCreateDTO data){
         this.name = data.name();
         this.phone = data.phone();
         this.cpf = data.cpf();
         this.isAvailable = true;
     }
 
-    public void update(PutClientDTO data){
+    public void update(ClientUpdateDTO data){
         if(data.name() != null) this.name = data.name();
         if(data.phone() != null) this.phone = data.phone();
         if(data.cpf() != null) this.cpf = data.cpf();

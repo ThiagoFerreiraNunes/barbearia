@@ -1,7 +1,7 @@
 package com.api.barbershop.model;
 
-import com.api.barbershop.dto.barber.PostBarberDTO;
-import com.api.barbershop.dto.barber.PutBarberDTO;
+import com.api.barbershop.dto.barber.BarberCreateDTO;
+import com.api.barbershop.dto.barber.BarberUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class Barber {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    public Barber(PostBarberDTO data, Unit unit){
+    public Barber(BarberCreateDTO data, Unit unit){
         this.name = data.name();
         this.phone = data.phone();
         this.cpf = data.cpf();
@@ -42,7 +42,7 @@ public class Barber {
         this.isAvailable = true;
     }
 
-    public void update(PutBarberDTO data, Unit unit){
+    public void update(BarberUpdateDTO data, Unit unit){
         if(data.name() != null) this.name = data.name();
         if(data.phone() != null) this.phone = data.phone();
         if(data.cpf() != null) this.cpf = data.cpf();

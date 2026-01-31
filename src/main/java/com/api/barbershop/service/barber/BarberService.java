@@ -1,9 +1,9 @@
 package com.api.barbershop.service.barber;
 
-import com.api.barbershop.dto.barber.GetBarberDetailsDTO;
-import com.api.barbershop.dto.barber.GetBarberSimpleDTO;
-import com.api.barbershop.dto.barber.PostBarberDTO;
-import com.api.barbershop.dto.barber.PutBarberDTO;
+import com.api.barbershop.dto.barber.BarberDetailsResponseDTO;
+import com.api.barbershop.dto.barber.BarberSummaryResponseDTO;
+import com.api.barbershop.dto.barber.BarberCreateDTO;
+import com.api.barbershop.dto.barber.BarberUpdateDTO;
 import com.api.barbershop.model.Barber;
 import com.api.barbershop.model.Unit;
 import com.api.barbershop.repository.BarberRepository;
@@ -19,25 +19,25 @@ public class BarberService {
     @Autowired UnitValidation unitValidation;
 
     @Transactional
-    public GetBarberDetailsDTO postBarber(PostBarberDTO data){
+    public BarberDetailsResponseDTO postBarber(BarberCreateDTO data){
         barberValidation.validateUniqueFields(data);
         Unit unit = unitValidation.validateActive(data.unitId());
         Barber barber = new Barber(data, unit);
         barberRepository.save(barber);
-        return new GetBarberDetailsDTO(barber);
+        return new BarberDetailsResponseDTO(barber);
     }
 
-    public List<GetBarberSimpleDTO> getAllBarbers(){
-        return barberRepository.findAllByAvailableAndSortByName().stream().map(GetBarberSimpleDTO::new).toList();
+    public List<BarberSummaryResponseDTO> getAllBarbers(){
+        return barberRepository.findAllByAvailableAndSortByName().stream().map(BarberSummaryResponseDTO::new).toList();
     }
 
-    public GetBarberDetailsDTO getBarberById(Long id){
+    public BarberDetailsResponseDTO getBarberById(Long id){
         Barber barber = barberValidation.validateBarber(id, BarberAction.ACTIVE_CHECK);
-        return new GetBarberDetailsDTO(barber);
+        return new BarberDetailsResponseDTO(barber);
     }
 
     @Transactional
-    public GetBarberDetailsDTO putBarberById(Long id, PutBarberDTO data){
+    public BarberDetailsResponseDTO putBarberById(Long id, BarberUpdateDTO data){
         Barber barber = barberValidation.validateBarber(id, BarberAction.ACTIVE_CHECK);
         barberValidation.validateUniqueFields(data, id);
         Unit unit = null;
@@ -47,7 +47,7 @@ public class BarberService {
         }
 
         barber.update(data, unit);
-        return new GetBarberDetailsDTO(barber);
+        return new BarberDetailsResponseDTO(barber);
     }
 
     @Transactional
@@ -57,9 +57,9 @@ public class BarberService {
     }
 
     @Transactional
-    public GetBarberDetailsDTO reactivateBarberById(Long id){
+    public BarberDetailsResponseDTO reactivateBarberById(Long id){
         Barber barber = barberValidation.validateBarber(id, BarberAction.REACTIVATE);
         barber.reactivate();
-        return new GetBarberDetailsDTO(barber);
+        return new BarberDetailsResponseDTO(barber);
     }
 }

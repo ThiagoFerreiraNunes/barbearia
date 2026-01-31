@@ -1,7 +1,7 @@
 package com.api.barbershop.model;
 
-import com.api.barbershop.dto.appointment.PostAppointmentDTO;
-import com.api.barbershop.dto.appointment.PutAppointmentDTO;
+import com.api.barbershop.dto.appointment.AppointmentCreateDTO;
+import com.api.barbershop.dto.appointment.AppointmentUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,7 +54,7 @@ public class Appointment {
     @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AppointmentItem> items = new ArrayList<>();
 
-    public Appointment(PostAppointmentDTO data, Barber barber, Client client, Unit unit, List<Procedure> procedures){
+    public Appointment(AppointmentCreateDTO data, Barber barber, Client client, Unit unit, List<Procedure> procedures){
         this.date = data.date();
         this.start = data.start();
         this.isAvailable = true;
@@ -77,7 +77,7 @@ public class Appointment {
         this.end = this.start.plusMinutes(totalMinutes);
     }
 
-    public void update(PutAppointmentDTO data, Barber barber, Client client, Unit unit, List<Procedure> procedures){
+    public void update(AppointmentUpdateDTO data, Barber barber, Client client, Unit unit, List<Procedure> procedures){
         boolean recalculate = false;
 
         if(data.date() != null) this.date = data.date();
